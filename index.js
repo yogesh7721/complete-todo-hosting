@@ -1,6 +1,7 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const cors = require("cors")
+const path = require("path")
 const cookieParser = require("cookie-parser")
 require("dotenv").config()
 
@@ -16,8 +17,10 @@ app.use(cors({
 }))
 app.use("/api/auth", require("./routes/auth.route"))
 app.use("/api/todo", require("./routes/todo.route"))
+
 app.use("*", (req, res) => {
-    res.status(404).json({ message: `Resource Not Found ${req.method}:${req.url}` })
+    res.sendFile(path.join(__dirname, "dist", "index.html"))
+    // res.status(404).json({ message: `Resource Not Found ${req.method}:${req.url}` })
 })
 
 mongoose.connect(process.env.MONGO_URL)
